@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+
+Host: https://vinoha.ir
+Sitemap: https://vinoha.ir/sitemap.xml
+

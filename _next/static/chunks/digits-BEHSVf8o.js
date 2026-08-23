@@ -1,0 +1,1 @@
+var e=[`۰`,`۱`,`۲`,`۳`,`۴`,`۵`,`۶`,`۷`,`۸`,`۹`];function t(t,n){let r=String(t);return n===`fa`?r.replace(/[0-9]/g,t=>e[Number(t)]??t):r}function n(e,n){return t(String(e).padStart(2,`0`),n)}function r(e){return e.replace(/[۰-۹]/g,e=>String(e.charCodeAt(0)-1776)).replace(/[٠-٩]/g,e=>String(e.charCodeAt(0)-1632))}export{n,t as r,r as t};

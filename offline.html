@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fa-IR" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>اتصال برقرار نیست | ویرا نوآفرین</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <!--
+      Everything here is inline on purpose. This page is shown precisely when
+      the network is unavailable, so it cannot depend on a stylesheet or a font
+      file that may not have made it into the cache. The system font stack is
+      not a compromise here — it is the only stack guaranteed to exist.
+    -->
+    <style>
+      :root {
+        --ink: #0a0a09;
+        --paper: #f3f1ec;
+        --accent: #ff4b1f;
+        --muted: rgba(243, 241, 236, 0.62);
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        padding: 2rem 1.25rem;
+        background: var(--ink);
+        color: var(--paper);
+        font-family: Vazirmatn, 'Segoe UI', Tahoma, system-ui, sans-serif;
+        /* Persian needs generous leading and zero letter-spacing. */
+        line-height: 1.85;
+        letter-spacing: 0;
+        text-align: center;
+      }
+      .wrap { max-width: 34rem; }
+      img { width: 108px; height: auto; margin: 0 auto 2rem; display: block; }
+      h1 {
+        margin: 0 0 1rem;
+        font-size: clamp(1.5rem, 5vw, 2.25rem);
+        font-weight: 700;
+        line-height: 1.3;
+      }
+      p { margin: 0 0 1.75rem; color: var(--muted); font-size: 1rem; }
+      button {
+        appearance: none;
+        border: 0;
+        cursor: pointer;
+        min-height: 3rem;
+        padding: 0 1.75rem;
+        background: var(--accent);
+        color: var(--ink);
+        font: inherit;
+        font-weight: 600;
+        transition: background-color 0.2s ease;
+      }
+      button:hover { background: var(--paper); }
+      button:focus-visible { outline: 2px solid var(--paper); outline-offset: 4px; }
+      .lines {
+        margin-top: 2.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(243, 241, 236, 0.14);
+        font-size: 0.875rem;
+        color: var(--muted);
+      }
+      /* A phone number and an email are Latin-ordered runs inside Persian. */
+      .ltr { unicode-bidi: isolate; direction: ltr; font-variant-numeric: tabular-nums; }
+      a { color: var(--accent); }
+      @media (prefers-reduced-motion: no-preference) {
+        .wrap { animation: rise 0.5s ease-out both; }
+        @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <img src="/brand/pwa/icon-192.png" alt="" width="192" height="192" />
+
+      <h1>اتصال اینترنت برقرار نیست</h1>
+      <p>
+        این صفحه هنوز روی دستگاه شما ذخیره نشده است. اتصال را بررسی کنید و دوباره
+        تلاش کنید — صفحه‌هایی که قبلاً باز کرده‌اید بدون اینترنت هم در دسترس‌اند.
+      </p>
+
+      <button type="button" onclick="location.reload()">تلاش دوباره</button>
+
+      <div class="lines">
+        <p style="margin: 0">
+          تماس مستقیم:
+          <a class="ltr" href="tel:+987138423139">۰۷۱&nbsp;۳۸۴۲۳۱۳۹</a>
+          &nbsp;·&nbsp;
+          <a class="ltr" href="mailto:viranoafarin@gmail.com">viranoafarin@gmail.com</a>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      /* The moment the connection returns, go where the visitor was heading. */
+      addEventListener('online', function () { location.reload(); });
+    </script>
+  </body>
+</html>

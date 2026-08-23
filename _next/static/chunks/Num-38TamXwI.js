@@ -1,0 +1,1 @@
+import{i as e}from"./framework-BaE7mD_r.js";import{t}from"./cn-BFXFoAFV.js";import{n,r}from"./digits-BEHSVf8o.js";var i=e();function a({value:e,locale:a,pad:o=!1,className:s}){let c=o&&typeof e==`number`?n(e,a):r(e,a);return(0,i.jsx)(`span`,{className:t(`tnum bidi-isolate`,s),children:c})}export{a as t};

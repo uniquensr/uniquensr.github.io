@@ -1,0 +1,1 @@
+import{i as e}from"./framework-BaE7mD_r.js";import{n as t,t as n}from"./RouteLink-BGcgYTlC.js";var r=e();function i({href:e,locale:i,children:a,...o}){return(0,r.jsx)(n,{href:t(e,i),...o,children:a})}export{i as t};

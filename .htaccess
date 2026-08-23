@@ -1,0 +1,113 @@
+# =============================================================================
+# vinoha.ir — Apache / LiteSpeed configuration
+#
+# On a static host this file is what actually applies the security headers,
+# caching and URL rules. `headers()` in next.config.ts never runs here: there
+# is no Node process. Keep the two in step.
+# =============================================================================
+
+# ------------------------------------------------------------------ encoding
+AddDefaultCharset UTF-8
+AddType application/manifest+json .webmanifest
+AddType image/avif .avif
+AddType image/webp .webp
+AddType font/woff2 .woff2
+AddType video/webm .webm
+AddType text/x-component .rsc
+
+# --------------------------------------------------------------------- rules
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Force HTTPS. Behind a proxy Apache may only see http, so trust the header
+  # the load balancer sets as well as its own view of the connection.
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # One canonical host. The site publishes https://vinoha.ir without www, and
+  # canonical tags say the same — so www must land there rather than serve a
+  # duplicate of every page.
+  RewriteCond %{HTTP_HOST} ^www\.vinoha\.ir$ [NC]
+  RewriteRule ^(.*)$ https://vinoha.ir/$1 [R=301,L]
+
+  # /industries has no published entries yet, so the build emits no page for
+  # it. The server build used to redirect it to /expertise; keeping that as a
+  # 301 means an old link or a stale index entry still lands somewhere useful
+  # instead of on a 404. Delete these two lines when the first industry is
+  # published and the route starts generating again.
+  RewriteRule ^industries/?$ /expertise [R=301,L]
+  RewriteRule ^en/industries/?$ /en/expertise [R=301,L]
+
+  # Serve /about from /about/index.html WITHOUT redirecting to /about/.
+  # Every canonical URL on the site is written without a trailing slash; the
+  # default mod_dir behaviour would 301 each one to a slashed variant and make
+  # every canonical disagree with the URL that actually served the page.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^(.*?)/?$ /$1/index.html [L]
+</IfModule>
+
+# mod_dir would otherwise re-add the trailing slash before the rule above runs.
+<IfModule mod_dir.c>
+  DirectorySlash Off
+  DirectoryIndex index.html
+</IfModule>
+
+ErrorDocument 404 /404.html
+
+# ------------------------------------------------------------------- headers
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+
+  # No third-party origin is used anywhere on this site: fonts are self-hosted
+  # and there is no analytics, no CDN and no embed. If that ever changes, widen
+  # this deliberately rather than by accident.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
+
+  # Content-hashed filenames never change in place.
+  <FilesMatch "\.(js|css|woff2?)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # ...but sw.js keeps its name forever, so the rule above would pin the very
+  # first service worker in every browser for a year and no update could ever
+  # reach anyone. It must be revalidated on each check.
+  <Files "sw.js">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+    Header set Service-Worker-Allowed "/"
+  </Files>
+  <FilesMatch "\.(png|jpe?g|webp|avif|svg|ico|mp4|webm)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  # HTML must revalidate or a redeploy would not reach anyone already on the site.
+  <FilesMatch "\.(html|rsc|xml|txt|webmanifest)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ----------------------------------------------------------------- compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE application/xml image/svg+xml
+  AddOutputFilterByType DEFLATE text/x-component application/manifest+json
+</IfModule>
+
+# Fonts, images and video are already compressed — recompressing wastes CPU.
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/javascript
+  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json
+  AddOutputFilterByType BROTLI_COMPRESS application/xml image/svg+xml
+</IfModule>
+
+# ------------------------------------------------------------------- hardening
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+Options -Indexes
+ServerSignature Off
