@@ -1,5 +1,5 @@
 /* Bump this version when changing the offline bundle. Documents and API data are never cached. */
-const CACHE='sevin-static-pages-94cf5bb4444a';
+const CACHE='sevin-static-pages-c55d2d310442';
 const OFFLINE='/sevin-photo-studio/offline.html';
 const ASSETS=[OFFLINE,'/sevin-photo-studio/offline.css','/sevin-photo-studio/offline.js','/sevin-photo-studio/fonts/vazirmatn.woff2','/sevin-photo-studio/images/sevin-logo-small.webp','/sevin-photo-studio/images/garden-editorial.webp','/sevin-photo-studio/images/wedding-rings.webp','/sevin-photo-studio/images/family-hands.webp','/sevin-photo-studio/icons/icon-192.png','/sevin-photo-studio/icons/icon-512.png','/sevin-photo-studio/icons/maskable-512.png','/sevin-photo-studio/icons/apple-touch-icon.png'];
 const ALLOWED=new Set(ASSETS);
