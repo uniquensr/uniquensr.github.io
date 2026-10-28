@@ -1,6 +1,6 @@
 {
   "generatedBy": "sevin-portable-builder",
-  "version": "ba8f9879841b",
+  "version": "164cc2fb5de7",
   "review": false,
   "releaseReady": true,
   "photosApproved": true,
@@ -9,6 +9,7 @@
   "basePath": "/sevin-photo-studio/",
   "studioPhotoCount": 3,
   "retainedFlowerHero": true,
+  "digitalPostcard": true,
   "instagramConnected": false,
   "instagramProfile": "https://www.instagram.com/photo_sevin/",
   "requiresNodeOnServer": false
