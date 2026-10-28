@@ -15,3 +15,5 @@ Only this directory is part of the Sevin deployment; the other website at the re
 Automatic Instagram post synchronization requires a separately authorized backend connection; the profile link is active
 
 Digital postcard: [PNG](https://uniquensr.github.io/sevin-photo-studio/downloads/sevin-digital-postcard.png) | [Clickable PDF](https://uniquensr.github.io/sevin-photo-studio/downloads/sevin-digital-postcard-clickable.pdf)
+
+The postcard address uses unit 266 and its QR was decoded from the final PNG to the exact public website URL
