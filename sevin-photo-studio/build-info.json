@@ -1,0 +1,15 @@
+{
+  "generatedBy": "sevin-portable-builder",
+  "version": "ba8f9879841b",
+  "review": false,
+  "releaseReady": true,
+  "photosApproved": true,
+  "photoCount": 21,
+  "siteUrl": "https://uniquensr.github.io/sevin-photo-studio/",
+  "basePath": "/sevin-photo-studio/",
+  "studioPhotoCount": 3,
+  "retainedFlowerHero": true,
+  "instagramConnected": false,
+  "instagramProfile": "https://www.instagram.com/photo_sevin/",
+  "requiresNodeOnServer": false
+}

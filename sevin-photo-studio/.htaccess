@@ -1,0 +1,17 @@
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /sevin-photo-studio/404.html
+<IfModule mod_mime.c>
+AddType application/manifest+json .webmanifest
+AddType font/woff2 .woff2
+</IfModule>
+<IfModule mod_headers.c>
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+<FilesMatch "^(sw\.js|manifest\.webmanifest|index\.html|instagram-status\.json)$">
+Header set Cache-Control "no-cache, max-age=0, must-revalidate"
+</FilesMatch>
+<FilesMatch "^sevin-[a-f0-9]+\.(css|js)$">
+Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>
+</IfModule>
